@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.cod": "lua",
-        "*.qasm": "pep8-asm",
-        "stdio.h": "c",
-        "stdlib.h": "c",
-        "file_reading.h": "c"
-    }
-}

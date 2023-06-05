@@ -1,3 +1,0 @@
-mov a 5 ; this is a test
-mov b 2 ; this is another test
-add a b ; addition
