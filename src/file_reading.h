@@ -22,8 +22,11 @@ sourcecode_t read_file_contents(const char* filename) {
     fseek(file, 0, SEEK_SET);
 
     // Read the file
-    char* file_contents = (char*) malloc(sizeof(char) * file_size);
-    fread(file_contents, sizeof(char), file_size, file);
+    char* file_contents = (char*) malloc(sizeof(char) * (file_size + 1));
+    size_t bytes_read = fread(file_contents, sizeof(char), file_size, file);
+
+    // Null-terminate the file contents
+    file_contents[bytes_read] = '\0';
 
     // Close the file
     fclose(file);
@@ -31,7 +34,7 @@ sourcecode_t read_file_contents(const char* filename) {
     // Return the file contents
     return (sourcecode_t) {
         .data = file_contents,
-        .length = file_size
+        .length = bytes_read
     };
 }
 

@@ -21,9 +21,13 @@ void main() {
     // Read the input file
     sourcecode_t sourcecode = read_file_contents("input.cca");
     preprocess_sourcecode(&sourcecode);
-
-    // Print the file
-    printf("%.*s\n", (int) sourcecode.length, sourcecode.data);
+    token_list_t tokens = tokenize(sourcecode, (char*[]) {
+        "a", "b", "c", "d", NULL
+    }, (char*[]) {
+        NULL
+    });
+    
+    print_token_list(tokens);
 
     // Free up the memory
     free_opcode_memory();
