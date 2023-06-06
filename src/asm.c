@@ -2,6 +2,7 @@
 #include "file_reading.h"
 #include "preprocessor.h"
 #include "tokenizer.h"
+#include "import_resolver.h"
 
 void main() {
     // Initialize the opcode memory
@@ -23,11 +24,11 @@ void main() {
     preprocess_sourcecode(&sourcecode);
     token_list_t tokens = tokenize(sourcecode, (char*[]) {
         "a", "b", "c", "d", NULL
-    }, (char*[]) {
-        NULL
     });
+
+    token_list_t final_tokens = resolve_imports(tokens);
     
-    print_token_list(tokens);
+    print_token_list(final_tokens);
 
     // Free up the memory
     free_opcode_memory();
