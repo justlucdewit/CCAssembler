@@ -16,6 +16,11 @@ sourcecode_t read_file_contents(const char* filename) {
     // Open the file
     FILE* file = fopen(filename, "r");
 
+    if (file == NULL) {
+        printf("Error: Could not open file '%s'\n", filename);
+        exit(1);
+    }
+
     // Get the file size
     fseek(file, 0, SEEK_END);
     size_t file_size = ftell(file);
