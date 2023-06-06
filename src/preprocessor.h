@@ -28,6 +28,9 @@ void preprocess_sourcecode(sourcecode_t* code) {
         }
     }
 
+    // Add a null terminator to the end of the buffer
+    new_buffer[new_buffer_length] = '\0';
+
     // Modify the sourcecode struct with the new data
     free(code->data);
     code->data = new_buffer;
