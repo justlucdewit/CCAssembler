@@ -12,7 +12,25 @@ typedef struct sourcecode {
 
 // This function reads the contents of a file into a string view
 // a string view is just a buffer that contains a length of the string
-sourcecode_t read_file_contents(const char* filename) {
+sourcecode_t read_file_contents(const char* filename, const char* extension) {
+    // Check if the file extension is correct
+    size_t filename_length = strlen(filename);
+    size_t extension_length = strlen(extension);
+
+    // Throw error if filename does not end with extension
+    if (filename_length < extension_length) {
+        printf("Error: File '%s' does not end with extension '%s'\n", filename, extension);
+        exit(1);
+    }
+
+    // Check if the file extension is correct
+    for (size_t i = 0; i < extension_length; i++) {
+        if (filename[filename_length - extension_length + i] != extension[i]) {
+            printf("Error: File '%s' does not end with extension '%s'\n", filename, extension);
+            exit(1);
+        }
+    }
+
     // Open the file
     FILE* file = fopen(filename, "r");
 

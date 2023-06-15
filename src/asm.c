@@ -3,33 +3,45 @@
 #include "preprocessor.h"
 #include "tokenizer.h"
 #include "import_resolver.h"
+#include "bytecode_generator.h"
 
-void main() {
-    // Initialize the opcode memory
-    initialize_opcode_memory();
+void main(int argc, char* argv[]) {
+    if (argc <= 1) {
+        printf("CC Assembler: \n\t Usage: cca <filename>.cca\n");
+    }
 
-    // Define some opcodes for testing
-    register_new_opcode("mov", 0x01, 2, (OPCODE_ARG_TYPES_T[]) {
-        OPCODE_ARG_TYPE_REGISTER,
-        OPCODE_ARG_TYPE_NUMERIC
-    });
+    else {
+        char* filename = argv[1];
 
-    register_new_opcode("add", 0x02, 3, (OPCODE_ARG_TYPES_T[]) {
-        OPCODE_ARG_TYPE_REGISTER,
-        OPCODE_ARG_TYPE_REGISTER
-    });
+        // Initialize the opcode memory
+        initialize_opcode_memory();
 
-    // Read the input file
-    sourcecode_t sourcecode = read_file_contents("input.cca");
-    preprocess_sourcecode(&sourcecode);
-    token_list_t tokens = tokenize(sourcecode, (char*[]) {
-        "a", "b", "c", "d", NULL
-    });
+        // Define some opcodes for testing
+        register_new_opcode("mov", 0x01, 2, (OPCODE_ARG_TYPES_T[]) {
+            OPCODE_ARG_TYPE_REGISTER,
+            OPCODE_ARG_TYPE_NUMERIC
+        });
 
-    token_list_t final_tokens = resolve_imports(tokens);
-    
-    print_token_list(final_tokens);
+        register_new_opcode("add", 0x02, 3, (OPCODE_ARG_TYPES_T[]) {
+            OPCODE_ARG_TYPE_REGISTER,
+            OPCODE_ARG_TYPE_REGISTER
+        });
 
-    // Free up the memory
-    free_opcode_memory();
+        // Read the input file
+        sourcecode_t sourcecode = read_file_contents(filename, ".cca");
+        preprocess_sourcecode(&sourcecode);
+        token_list_t tokens = tokenize(sourcecode, (char*[]) {
+            "a", "b", "c", "d", NULL
+        });
+
+        token_list_t final_tokens = resolve_imports(tokens);
+        
+        // print_token_list(final_tokens);
+        generate_bytecode(filename, final_tokens);
+
+        // Free up the memory
+        free_opcode_memory();
+
+        return;
+    }
 }

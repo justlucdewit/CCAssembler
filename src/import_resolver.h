@@ -24,7 +24,7 @@ token_list_t resolve_imports(token_list_t old_tokens) {
             }
 
             // Read the sourcecode from the file
-            sourcecode_t sourcecode = read_file_contents(next_token.data);
+            sourcecode_t sourcecode = read_file_contents(next_token.data, ".cca");
             preprocess_sourcecode(&sourcecode);
             token_list_t tokens = tokenize(sourcecode, (char*[]) {
                 "a", "b", "c", "d", NULL
