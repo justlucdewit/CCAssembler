@@ -6,9 +6,6 @@
 #include "bytecode_generator.h"
 
 int main(int argc, char* argv[]) {
-    printf("Press Enter to exit...");
-    getchar(); // Wait for user input
-
     if (argc <= 1) {
         printf("CC Assembler: \n\t Usage: cca <filename>.cca\n");
     }
