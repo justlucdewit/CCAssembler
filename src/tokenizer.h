@@ -14,7 +14,7 @@ typedef enum token_type {
     TOKEN_UNKNOWN
 } token_type_t;
 
-const char* stringify_token_type(token_type_t type) {
+char* stringify_token_type(token_type_t type) {
     if (type == TOKEN_INSTRUCTION)
         return "TOKEN_INSTRUCTION";
     if (type == TOKEN_LABEL)
@@ -29,6 +29,8 @@ const char* stringify_token_type(token_type_t type) {
         return "TOKEN_REGISTER";
     if (type == TOKEN_UNKNOWN)
         return "TOKEN_UNKNOWN";
+    else
+        return "TOKEN_UNDEFINED";
 }
 
 typedef struct token {
@@ -76,7 +78,7 @@ int check_if_string_is_number(char* string) {
     // Check if the string is hex like '0x123' or '0x69420'
     if (strlen(string) > 2 && string[0] == '0' && string[1] == 'x') {
         for (size_t i = 2; i < strlen(string); i++) {
-            if (string[i] < '0' | string[i] > '9' && string[i] < 'a' | string[i] > 'f' && string[i] < 'A' | string[i] > 'F') {
+            if ((string[i] < '0' || string[i] > '9') && (string[i] < 'a' || string[i] > 'f') && (string[i] < 'A' || string[i] > 'F')) {
                 return 0;
             }
         }
@@ -98,7 +100,7 @@ int check_if_string_is_number(char* string) {
     // Check if the string is octal like '0o123' or '0o69420'
     if (strlen(string) > 2 && string[0] == '0' && string[1] == 'o') {
         for (size_t i = 2; i < strlen(string); i++) {
-            if (string[i] < '0' | string[i] > '7') {
+            if (string[i] < '0' || string[i] > '7') {
                 return 0;
             }
         }
@@ -109,7 +111,7 @@ int check_if_string_is_number(char* string) {
     // Check if the string is normal decimal like '123' or '69420'
     else {
         for (size_t i = 0; i < strlen(string); i++) {
-            if (string[i] < '0' | string[i] > '9') {
+            if (string[i] < '0' || string[i] > '9') {
                 return 0;
             }
         }
@@ -141,7 +143,7 @@ token_list_t tokenize(sourcecode_t code, char* register_names[]) {
     // Loop through the source code
     for (size_t i = 0; i < code.length; i++) {
         // If we encounter a space, we have a token
-        if (code.data[i] == ' ' | code.data[i] == '\n' | code.data[i] == '\t') {    
+        if (code.data[i] == ' ' || code.data[i] == '\n' || code.data[i] == '\t') {
             // add null terminator, make sure buffer is big enough
             if (token_buffer_size >= token_buffer_capacity) {
                 token_buffer_capacity *= 2;
@@ -249,7 +251,7 @@ token_list_t tokenize(sourcecode_t code, char* register_names[]) {
             token_type = TOKEN_NUMBER;
         if (check_if_string_is_instruction(token_buffer))
             token_type = TOKEN_INSTRUCTION;
-            
+
         tokens[token_count] = (token_t) {
             .data = token_buffer,
             .type = token_type,

@@ -5,7 +5,10 @@
 #include "import_resolver.h"
 #include "bytecode_generator.h"
 
-void main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
+    printf("Press Enter to exit...");
+    getchar(); // Wait for user input
+
     if (argc <= 1) {
         printf("CC Assembler: \n\t Usage: cca <filename>.cca\n");
     }
@@ -35,13 +38,15 @@ void main(int argc, char* argv[]) {
         });
 
         token_list_t final_tokens = resolve_imports(tokens);
-        
+
         // print_token_list(final_tokens);
         generate_bytecode(filename, final_tokens);
+
+        printf("Compilation Successful");
 
         // Free up the memory
         free_opcode_memory();
 
-        return;
+        return 0;
     }
 }

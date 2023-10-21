@@ -1,1 +1,0 @@
-gcc src/asm.c -o dist/asm -std=c99
