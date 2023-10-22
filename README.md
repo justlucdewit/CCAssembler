@@ -7,7 +7,7 @@ An assembler for the CC Virtual Machine.
 
 ## Todo
 + support for raw statements
-- support for escape codes
++ support for escape codes
 - make it illegal to have newline in string literal
 - support for instructions
 - support for labels
