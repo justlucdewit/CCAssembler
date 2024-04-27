@@ -1,0 +1,14 @@
+*.sh
+test.cca
+test.ccb
+.vscode
+/cmake-build-debug
+/.idea
+*.exe
+testing.cca
+testing.ccb
+./cca
+cca
+*.ccb
+*.cca
+/examples/
