@@ -7,8 +7,7 @@ test.ccb
 *.exe
 testing.cca
 testing.ccb
-./cca
-cca
+/cca
 *.ccb
 *.cca
 /examples/
